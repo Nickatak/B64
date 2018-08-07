@@ -54,29 +54,80 @@ class Decoder(object):
 
         return self.__split(bin_str, 8)
 
-    def __byte_to_char(self, byte_str):
+    def __byte_to_int(self, byte_str):
         int_value = 0
 
         for idx, bit in enumerate(byte_str):
             if bit == '1':
                 int_value += 2 ** (len(byte_str) - 1 - idx)
 
-        return chr(int_value)
+        return int_value
         
     def decode(self, input_str):
         chunks = self.__split(input_str, 4)
-        output = ''
+        output = []
         
         for chunk in chunks:
             bytes = self.__chunk_to_bin_strs(chunk)
             for byte in bytes:
-                output += self.__byte_to_char(byte)
+                output.append(self.__byte_to_int(byte))
 
         return output
         
-
-if __name__ == '__main__':
-    tester = "TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlzIHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2YgdGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGludWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRoZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4="
+class DeckStringParser(object):
     
-    a = Decoder()
-    a.decode(tester)
+    def __init__(self):
+        self.decoder = Decoder()
+
+    def decode(self, deck_string):
+        decoded = self.decoder.decode(deck_string)
+        null_byte = decoded[0]
+        version = decoded[1]
+        format = decoded[2]
+
+        decoded = decoded[3:]
+        
+        
+if __name__ == '__main__':
+    tester = "AAECAfe5AgaKB70BzfQCIKfuAsLOAgzZB7DwAvAHsQiU7wKRwQL27AKW6AL+BZvLApkC0wEA"
+    
+    a = DeckStringParser()
+    print(a.decode(tester))
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
